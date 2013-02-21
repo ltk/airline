@@ -1,0 +1,10 @@
+<h1>Users#new</h1>
+<p>Find me in app/views/users/new.html.erb</p>
+<%= simple_form_for @user, :url => users_path do |f| %>
+  <ol>
+    <%= render 'form', :f => f %>
+    <li class="form-footer">
+      <%= f.button :submit, "Sign Up", :class => "button primary" %>
+    </li>
+  </ol>
+<% end %>
