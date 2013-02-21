@@ -7,6 +7,7 @@ describe "a user wishing to sign up for an account" do
 
       fill_in "user_first_name", :with => "Lawson"
       fill_in "user_last_name",  :with => "Kurtz"
+      fill_in "user_company_name",  :with => "Viget Labs"
       fill_in "user_email",
         :with => "lawson.kurtz@viget.com"
       fill_in "user_password", :with => "password"
@@ -17,8 +18,6 @@ describe "a user wishing to sign up for an account" do
       User.find_by_email("lawson.kurtz@viget.com").should_not be_nil
       
       page.should have_content("User created")
-      # page.should flash_with "User created"
-      # flash[:notice].should == "User created"
     end
   end
 
@@ -28,8 +27,6 @@ describe "a user wishing to sign up for an account" do
       click_button "Sign Up"
 
       page.should have_content("There were errors in your submission")
-      # page.should flash_with "There were errors in your submission"
-      # flash[:alert].should == "There were errors in your submission"
     end
   end
 end

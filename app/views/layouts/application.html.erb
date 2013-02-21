@@ -7,16 +7,31 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<% flash.each do |key, value| %>
-  <div class="row flash <%= key %>">
-    <div class="contain">
-      <div class="box">
+  <div class="container">
+    <div class="navbar">
+      <div class="navbar-inner">
+        <%= link_to "Airline", root_url, :class => 'brand' %>
+        <ul class="nav pull-right">
+          <% if logged_in? %>
+            <li><%= link_to "Sign Out", session_path, :method => :delete %></li>
+          <% else %>
+            <li><%= link_to "Sign Up", new_users_path %></li>
+            <li><%= link_to "Sign In", new_session_path %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <% flash.each do |key, value| %>
+      <div class="alert <%= key %>">
         <%= value %>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="span12">
+        <%= yield %>
       </div>
     </div>
   </div>
-<% end %>
-<%= yield %>
-
 </body>
 </html>

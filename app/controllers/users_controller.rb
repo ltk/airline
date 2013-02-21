@@ -10,7 +10,7 @@ class UsersController < ApplicationController
       flash[:notice] = "User created"
       redirect_to root_path
     else
-      flash[:alert] = "There were errors in your submission"
+      flash[:error] = "There were errors in your submission"
       render "new"
     end
   end
