@@ -4,13 +4,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
-    if(@user.save)
+    @user = User.new params[:user]
+    if @user.save
       self.current_user = @user
-      flash[:notice] = "User created"
-      redirect_to root_path
+      redirect_to root_path, :notice => "User created"
     else
-      flash[:error] = "There were errors in your submission"
+      flash.now[:error] = "There were errors in your submission"
       render "new"
     end
   end

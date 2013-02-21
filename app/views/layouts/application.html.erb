@@ -23,10 +23,13 @@
     </div>
 
     <% flash.each do |key, value| %>
-      <div class="alert <%= key %>">
-        <%= value %>
-      </div>
+      <% if [:error, :notice, :alert].include?(key) && value.present? %>
+        <div class="alert <%= key %>">
+          <%= value %>
+        </div>
+      <% end %>
     <% end %>
+
     <div class="row">
       <div class="span12">
         <%= yield %>

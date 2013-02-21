@@ -8,13 +8,12 @@ class SessionsController < ApplicationController
       self.current_user = user
       redirect_to root_path, :alert => "Signed in successfully"
     else
-      flash[:error] = "Couldn't locate a user with those credentials"
-      render "new"
+      redirect_to new_session_path, :alert => "Couldn't locate a user with those credentials"
     end
   end
 
   def destroy
     self.current_user = nil
-    redirect_to new_session_path
+    redirect_to new_session_path, :alert => "Signed out"
   end
 end
