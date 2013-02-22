@@ -1,0 +1,20 @@
+development:
+  adapter: postgresql
+  database: airline_development
+  username: <%= `whoami`.chomp  %>
+  password:
+  hostname: localhost
+
+test:
+  adapter: postgresql
+  database: airline_test
+  username: <%= `whoami`.chomp  %>
+  password:
+  hostname: localhost
+
+production:
+  adapter: postgresql
+  database: airline_production
+  username: <%= `whoami`.chomp  %>
+  password:
+  hostname: localhost
