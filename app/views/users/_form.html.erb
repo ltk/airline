@@ -1,6 +1,6 @@
 <li><%= f.input :first_name %></li>
 <li><%= f.input :last_name %></li>
-<li><%= f.input :company_name %></li>
+<li><%= f.association :company, :label => 'Choose Your Company' %> or <%= link_to_add_association 'Add a New Company', f, :company %></li>
 <li><%= f.input :email %></li>
 <li><%= f.input :password %></li>
 <li><%= f.input :password_confirmation %></li>

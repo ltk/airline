@@ -13,6 +13,7 @@
         <%= link_to "Airline", root_url, :class => 'brand' %>
         <ul class="nav pull-right">
           <% if logged_in? %>
+            <li><%= link_to "Invite Coworkers", new_invitation_path %></li>
             <li><%= link_to "Sign Out", session_path, :method => :delete %></li>
           <% else %>
             <li><%= link_to "Sign Up", new_users_path %></li>

@@ -6,6 +6,7 @@ gem 'simplest_auth', '~>0.3.1'
 gem 'simple_form'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'cocoon'
 
 # Gems used only for assets and not required
 # in production environments by default.
