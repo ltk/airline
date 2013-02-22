@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def new
-    @user = User.new
+    @user = params[:code] ? User.new_from_invite_code(params[:code]) : User.new
   end
 
   def create

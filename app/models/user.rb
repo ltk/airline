@@ -15,4 +15,9 @@ class User < ActiveRecord::Base
   validates :password, :length => {:minimum => 5}, :if => :password_required?
   validates :password, :presence => true, :on => :create
   validates :password_confirmation, :presence => true, :on => :create
+
+  def self.new_from_invite_code(code)
+    invite = Invitation.find_by_code(code)
+    invite ? self.new(:email => invite.email, :company_id => invite.company_id) : self.new
+  end
 end
