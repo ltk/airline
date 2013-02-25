@@ -22,11 +22,11 @@ describe User do
     let(:invite) { FactoryGirl.create(:invitation) }
     let(:user) { User.new_from_invite_code(invite.code) }
 
-    it "should return a User with an email address" do
+    it "returns a User with an email address" do
       user.email.should_not be_blank
     end
 
-    it "should return a User with a company association" do
+    it "returns a User with a company association" do
       user.company_id.should_not be_blank
     end
   end

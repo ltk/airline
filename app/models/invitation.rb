@@ -19,7 +19,6 @@ class Invitation < ActiveRecord::Base
   end
 
   def send_invite_email
-    mail = InvitationMailer.invite(self)
-    mail.deliver
+    mail = InvitationMailer.invite(self).deliver
   end
 end

@@ -35,7 +35,7 @@ describe "Sessions" do
 
   describe "Signing Out" do
     describe "a user who is logged in" do
-      it "should be able to log out" do
+      it "can log out" do
         user = FactoryGirl.create(:user)
         log_in user.email, user.password
 
