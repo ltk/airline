@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe User do
+  before(:all) { User.all.each(&:destroy) }
   context 'validations' do
     before do
       FactoryGirl.create(:user)

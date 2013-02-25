@@ -11,7 +11,7 @@ class Invitation < ActiveRecord::Base
   private
 
   def set_invite_code
-    self.code = generate_code
+    self.code ||= generate_code
   end
 
   def generate_code

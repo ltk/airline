@@ -3,7 +3,7 @@ FactoryGirl.define do
     company FactoryGirl.create(:company)
     first_name "John"
     last_name "Smith"
-    email "john.smith@example.com"
+    sequence(:email) { |i| "email-#{i}@example.com" }
     password "password"
     password_confirmation "password"
   end

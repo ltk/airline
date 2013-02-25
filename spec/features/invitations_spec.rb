@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "Invitations" do
-  describe "inviting a person to signup" do
+  describe "inviting a user to signup" do
     context "when logged out" do
       it "redirects to the login page" do
         visit "/invitation/new"
@@ -22,7 +22,8 @@ describe "Invitations" do
       describe "with a valid email address" do
         it "sends new invitation record" do
           invite("bob.loblaw@lawsblog.com")
-          expect { click_button "Send Invite" }.to change { Invitation.count }.by(1)
+
+          expect { form_submission }.to change { Invitation.count }.by(1)
           current_path.should == root_path
           page.should have_content "Invitation sent"
           Invitation.last.company_id.should == user.company_id
@@ -33,13 +34,18 @@ describe "Invitations" do
       describe "with an invalid email address" do
         it "re-renders the new invitation page" do
           invite("bob@loblawlawsblog")
-          expect { click_button "Send Invite" }.to_not change { Invitation.count }
+
+          expect { form_submission }.to_not change { Invitation.count }
           page.current_path.should == invitation_path
           page.should have_content "There were errors in your submission"
           InvitationMailer.deliveries.should be_empty
         end
       end
     end
+  end
+
+  def form_submission
+    click_button "Send Invite"
   end
 
   def invite(email)

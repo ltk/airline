@@ -1,1 +1,1 @@
-You received an invite to join Airline. <%= link_to "Click to join.", redeem_invitation_path(@invitation.code) %>
+You received an invite to join Airline. <%= link_to "Click to join.", :controller => :users, :action => :new, :code => @invitation.code %>
