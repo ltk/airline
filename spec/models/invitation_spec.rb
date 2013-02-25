@@ -19,7 +19,7 @@ describe Invitation do
 
     it "sets a code on the record" do
       invitation.save
-      invitation.code.should =~ /[a-f0-9]{40}/
+      invitation.code.should =~ /[a-zA-Z0-9-_=]{12}/
     end
   end
 
@@ -33,16 +33,6 @@ describe Invitation do
   end
 
   describe "#set_invite_code" do
-    context "when an invitation already has a code" do
-      it "should not change the code" do
-        invitation = FactoryGirl.create(:invitation)
-        old_code = invitation.code
-        invitation.send(:set_invite_code)
-
-        invitation.code.should eql(old_code)
-      end
-    end
-
     context "when an invitation has no code" do
       it "sets the invitation code upon creation" do
         new_invitation = FactoryGirl.build(:invitation)
@@ -58,8 +48,8 @@ describe Invitation do
       time_now = Time.parse("Jan 1 2013")
       Time.stub!(:now).and_return(time_now)
 
-      code = 'abcdef1234567890'
-      Digest::SHA1.stub!(:hexdigest).and_return('abcdef1234567890')
+      code = 'abcdef123456'
+      SecureRandom.stub!(:urlsafe_base64).and_return(code)
 
       invitation = FactoryGirl.create(:invitation)
       invitation.code.should == code

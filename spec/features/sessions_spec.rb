@@ -17,9 +17,9 @@ describe "Sessions" do
     end
 
     describe "with valid credentials" do
-      let(:user) { FactoryGirl.create(:user, :email => "lawson.kurtz@viget.com", :password => "12345", :password_confirmation => "12345") }
+      let(:user) { FactoryGirl.create(:user) }
       
-      it "renders the account page" do
+      it "renders the account page" do        
         visit "/session/new"
 
         fill_in "Email", :with => user.email

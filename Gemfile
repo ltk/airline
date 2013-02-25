@@ -28,6 +28,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'email_spec'
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 
 group :test do

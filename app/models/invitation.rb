@@ -11,11 +11,13 @@ class Invitation < ActiveRecord::Base
   private
 
   def set_invite_code
-    self.code ||= generate_code
+    begin
+      self.code = generate_code
+    end until self.class.find_by_code(code).nil?
   end
 
   def generate_code
-    Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{self.email}--")
+      SecureRandom.urlsafe_base64(12)
   end
 
   def send_invite_email
