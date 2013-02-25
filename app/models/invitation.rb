@@ -8,19 +8,23 @@ class Invitation < ActiveRecord::Base
   before_create :set_invite_code
   after_create :send_invite_email
 
+  def self.code_unique?(code)
+    find_by_code(code).nil?
+  end
+
   private
 
   def set_invite_code
     begin
       self.code = generate_code
-    end until self.class.find_by_code(code).nil?
+    end until self.class.code_unique?(self.code)
   end
 
   def generate_code
-      SecureRandom.urlsafe_base64(12)
+    SecureRandom.urlsafe_base64(12)
   end
 
   def send_invite_email
-    mail = InvitationMailer.invite(self).deliver
+    InvitationMailer.invite(self).deliver
   end
 end

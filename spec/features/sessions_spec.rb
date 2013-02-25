@@ -19,7 +19,7 @@ describe "Sessions" do
     describe "with valid credentials" do
       let(:user) { FactoryGirl.create(:user) }
       
-      it "renders the account page" do        
+      it "renders the account page" do
         visit "/session/new"
 
         fill_in "Email", :with => user.email
