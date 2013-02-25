@@ -8,7 +8,7 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new params[:invitation]
     @invitation.company_id = current_user.company_id
-    if @invitation.save()
+    if @invitation.save
       redirect_to root_path, :notice => "Invitation sent"
     else
       flash.now[:error] = "There were errors in your submission"

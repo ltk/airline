@@ -38,11 +38,14 @@ describe Invitation do
     end
 
     it "should generate a hex hash code" do
-      @time_now = Time.parse("Jan 1 2013")
-      Time.stub!(:now).and_return(@time_now)
+      time_now = Time.parse("Jan 1 2013")
+      Time.stub!(:now).and_return(time_now)
+
+      code = 'abcdef1234567890'
+      Digest::SHA1.stub!(:hexdigest).and_return('abcdef1234567890')
 
       invitation = FactoryGirl.create(:invitation)
-      invitation.code.should == Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{invitation.email}--")
+      invitation.code.should == code
     end
   end
 

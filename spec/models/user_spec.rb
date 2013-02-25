@@ -19,7 +19,7 @@ describe User do
   end
 
   describe ".new_from_invite_code" do
-    invite = FactoryGirl.create(:invitation)
+    let(:invite) { FactoryGirl.create(:invitation) }
     let(:user) { User.new_from_invite_code(invite.code) }
 
     it "should return a User with an email address" do

@@ -1,10 +1,9 @@
-require 'spec_helper'
-include EmailSpec::Helpers
-include EmailSpec::Matchers
-
 describe InvitationMailer do
-  describe "#invite" do
+  require 'spec_helper'
+  include EmailSpec::Helpers
+  include EmailSpec::Matchers
 
+  describe "#invite" do
     let(:invitation) { FactoryGirl.create(:invitation) }
     subject { InvitationMailer.invite(invitation) }
     
