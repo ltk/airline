@@ -8,18 +8,23 @@ class Invitation < ActiveRecord::Base
   before_create :set_invite_code
   after_create :send_invite_email
 
+  def self.code_unique?(code)
+    find_by_code(code).nil?
+  end
+
   private
 
   def set_invite_code
-    self.code ||= generate_code
+    begin
+      self.code = generate_code
+    end until self.class.code_unique?(self.code)
   end
 
   def generate_code
-    Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{self.email}--")
+    SecureRandom.urlsafe_base64(12)
   end
 
   def send_invite_email
-    mail = InvitationMailer.invite(self)
-    mail.deliver
+    InvitationMailer.invite(self).deliver
   end
 end

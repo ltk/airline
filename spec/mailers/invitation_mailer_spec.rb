@@ -1,10 +1,10 @@
 require 'spec_helper'
-include EmailSpec::Helpers
-include EmailSpec::Matchers
 
 describe InvitationMailer do
-  describe "#invite" do
+  include EmailSpec::Helpers
+  include EmailSpec::Matchers
 
+  describe ".invite" do
     let(:invitation) { FactoryGirl.create(:invitation) }
     subject { InvitationMailer.invite(invitation) }
     
@@ -15,7 +15,7 @@ describe InvitationMailer do
     end
 
     it "contains a signup link" do
-      should have_body_text /#{invitation.code}/
+      should have_body_text "#{default_url_options[:host]}/users/new?code=#{invitation.code}"
     end
   end
 end

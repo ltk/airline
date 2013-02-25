@@ -50,16 +50,16 @@ describe "Users" do
 
     context "with an invitation code" do
       describe "that is valid" do
-        it "should fill in the user's email address" do
+        it "fills in the user's email address" do
           invitation = FactoryGirl.create(:invitation)
-          visit "/users/new/#{invitation.code}"
+          visit "/users/new?code=#{invitation.code}"
           email_field_value.should == invitation.email
         end
       end
 
       describe "that is invalid" do
-        it "should not fill in an email address" do
-          visit "/users/new/#{'fakecode'*5}"
+        it "doesn't fill in an email address" do
+          visit "/users/new?code=#{'fakecode'*5}"
 
           email_field_value.should be_blank
         end
@@ -75,10 +75,10 @@ describe "Users" do
     end
 
     def fill_in_sign_up_form_with(user)
-      fill_in "user_first_name", :with => user.first_name
-      fill_in "user_last_name",  :with => user.last_name
-      fill_in "user_email", :with => user.email
-      fill_in "user_password", :with => user.password
+      fill_in "user_first_name",            :with => user.first_name
+      fill_in "user_last_name",             :with => user.last_name
+      fill_in "user_email",                 :with => user.email
+      fill_in "user_password",              :with => user.password
       fill_in "user_password_confirmation", :with => user.password_confirmation
     end
   end  

@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
 
   def self.new_from_invite_code(code)
     invite = Invitation.find_by_code(code)
-    invite ? self.new(:email => invite.email, :company_id => invite.company_id) : self.new
+    if invite
+      self.new(:email => invite.email, :company_id => invite.company_id)
+    else
+      self.new
+    end
   end
 end
