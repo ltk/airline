@@ -13,4 +13,29 @@ class UsersController < ApplicationController
       render "new"
     end
   end
+
+  def edit
+    @user = User.find_by_id(params[:id])
+    allow_self_service_only
+  end
+
+  def update
+    @user = User.find_by_id(params[:id])
+    allow_self_service_only
+
+    @user.assign_attributes(params[:user])
+    if @user.save
+      redirect_to edit_user_path(@user.id), :notice => "Information updated"
+    else
+      redirect_to edit_user_path(@user.id), :alert => "There were errors with your submission"
+    end
+  end
+
+  private
+
+  def allow_self_service_only
+    if @user != current_user
+      redirect_to root_path, :alert => "You don't have permission to edit that user account"
+    end
+  end
 end

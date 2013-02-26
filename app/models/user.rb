@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include SimplestAuth::Model
 
-  attr_accessible :first_name, :last_name, :email, :company_id, :password, :password_confirmation, :company_attributes
+  attr_accessible :first_name, :last_name, :email, :company_id, :password, :password_confirmation, :company_attributes, :avatar
 
   belongs_to :company
 
@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   validates :password, :length => {:minimum => 5}, :if => :password_required?
   validates :password, :presence => true, :on => :create
   validates :password_confirmation, :presence => true, :on => :create
+
+  mount_uploader :avatar, AvatarUploader
 
   def self.new_from_invite_code(code)
     invite = Invitation.find_by_code(code)

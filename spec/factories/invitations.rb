@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :invitation do
-    company FactoryGirl.create(:company)
+    company :factory => :company
     email "john.smith@example.com"
   end
 end
