@@ -21,8 +21,7 @@ describe Invitation do
 
     it "choose a new code when choosing a duplicate" do
       SecureRandom.should_receive(:urlsafe_base64).with(12).exactly(3).times.and_return("code", "code", "new_code")
-      invite = described_class.new(:email => "user@host.com", :company_id => 1 )
-      invite.save
+      described_class.create(:email => "user@host.com", :company_id => 1)
       invitation.save
     end
   end
@@ -32,8 +31,26 @@ describe Invitation do
 
     it "sends an InvitationMailer" do
       mail = double("mail", :deliver => nil)
-      InvitationMailer.should_receive(:invite).with(invitation).and_return(mail)
+      InvitationMailer.stub(:invite).and_return(mail)
+      mail.should_receive(:deliver)
       invitation.save
+    end
+  end
+
+  describe ".code_unique?" do
+    subject { described_class.code_unique?('code') }
+
+    context "when passed a non-unique code" do
+      before do
+        SecureRandom.stub(:urlsafe_base64).and_return('code')
+        FactoryGirl.create(:invitation)
+      end
+
+      it { should be false }
+    end
+
+    context "when passed a unique code" do
+      it { should be true }
     end
   end
 end

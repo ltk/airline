@@ -75,6 +75,7 @@ describe "Users" do
     end
 
     def fill_in_sign_up_form_with(user)
+      attach_file "user_avatar", Rails.root.join('spec','fixtures','images','example.png')
       fill_in "user_first_name",            :with => user.first_name
       fill_in "user_last_name",             :with => user.last_name
       fill_in "user_email",                 :with => user.email
@@ -132,6 +133,17 @@ describe "Users" do
             old_crypt_pass = user.crypted_password
             old_crypt_pass.should_not eql(user.reload.crypted_password)
           end
+        end
+      end
+
+      context "providing a new avatar file" do
+        before { attach_file "user_avatar", Rails.root.join('spec','fixtures','images','example.gif') }
+
+        it "should save and show the updated avatar" do
+          click_button "Update Information"
+
+          user.reload.avatar_url.should == "/uploads/user/avatar/#{user.id}/example.gif"
+          page.should have_xpath("//img[@src=\"#{user.avatar_url(:thumb)}\"]")
         end
       end
 
