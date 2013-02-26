@@ -1,0 +1,6 @@
+<h1>So you forgot your password...</h1>
+
+<%= simple_form_for :password, :url => password_path do |f| %>
+  <%= f.input :email %>
+  <%= f.button :submit, "Request Reset Instructions", :class => "button primary" %>
+<% end %>

@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   validates :password, :length => {:minimum => 5}, :if => :password_required?
   validates :password, :presence => true, :on => :create
   validates :password_confirmation, :presence => true, :on => :create
+  validates :password_reset_token, :uniqueness => true, :allow_nil => true
 
   mount_uploader :avatar, AvatarUploader
 
@@ -26,5 +27,20 @@ class User < ActiveRecord::Base
     else
       self.new
     end
+  end
+
+  def send_reset_instructions
+    set_password_reset_token
+    PasswordResetMailer.send_reset_instructions(self).deliver
+  end
+
+  private
+
+  def set_password_reset_token
+    update_attribute(:password_reset_token, new_password_reset_token)
+  end
+
+  def new_password_reset_token
+    SecureRandom.urlsafe_base64(20)
   end
 end
