@@ -17,6 +17,19 @@ describe User do
     it { should allow_value("12345").for(:password) }
   end
 
+  context 'mass assignment' do
+    it { should allow_mass_assignment_of(:first_name) }
+    it { should allow_mass_assignment_of(:last_name) }
+    it { should allow_mass_assignment_of(:email) }
+    it { should allow_mass_assignment_of(:password) }
+    it { should allow_mass_assignment_of(:password_confirmation) }
+    it { should allow_mass_assignment_of(:avatar) }
+    it { should allow_mass_assignment_of(:company_id) }
+    it { should allow_mass_assignment_of(:company_attributes) }
+    it { should_not allow_mass_assignment_of(:company_id).as(:update) }
+    it { should_not allow_mass_assignment_of(:company_attributes).as(:update) }
+  end
+
   describe ".new_from_invite_code" do
     let(:invite) { FactoryGirl.create(:invitation) }
     let(:user) { User.new_from_invite_code(invite.code) }

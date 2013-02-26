@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:session][:email], params[:session][:password])
+    user = User.authenticate(session_params[:email], session_params[:password])
     if user
       self.current_user = user
       redirect_to root_path, :alert => "Signed in successfully"
@@ -15,5 +15,11 @@ class SessionsController < ApplicationController
   def destroy
     self.current_user = nil
     redirect_to new_session_path, :alert => "Signed out"
+  end
+
+  private
+
+  def session_params
+    params[:session] || {}
   end
 end

@@ -89,7 +89,7 @@ describe "Users" do
       let(:user) { FactoryGirl.create(:user) }
       before do
         login_with(user)
-        visit "/users/#{user.id}/edit"
+        click_link "Edit Account"
       end
 
       context "providing a valid email address" do
@@ -97,7 +97,7 @@ describe "Users" do
           fill_in "Email", :with => "new@email.address"
           click_button "Update Information"
 
-          current_path.should eql(edit_user_path(user))
+          current_path.should eql(edit_users_path)
           page.should have_content "Information updated"
           user.reload.email.should eql("new@email.address")
         end
@@ -111,7 +111,7 @@ describe "Users" do
 
         it "re-renders the edit form with errors" do
           page.should have_content "There were errors"
-          current_path.should eql(edit_user_path(user))
+          current_path.should eql(edit_users_path)
         end
 
         it "does not change the email address" do
@@ -142,20 +142,6 @@ describe "Users" do
           user.reload.avatar_url.should == "/uploads/user/avatar/#{user.id}/example.gif"
           page.should have_xpath("//img[@src=\"#{user.avatar_url(:thumb)}\"]")
         end
-      end
-    end
-
-    context "when logged in as a different user" do
-      let(:editee) { FactoryGirl.create(:user) }
-      let(:editor) { FactoryGirl.create(:user) }
-      before do
-        login_with(editor)
-        visit "/users/#{editee.id}/edit"
-      end
-
-      it "redirects to the home page with errors" do
-        current_path.should eql(root_path)
-        page.should have_content "You don't have permission to edit that user account"
       end
     end
   end
