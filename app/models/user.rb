@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def send_reset_instructions
+  def send_password_reset_instructions
     set_password_reset_token
     PasswordResetMailer.send_reset_instructions(self).deliver
   end

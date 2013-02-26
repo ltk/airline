@@ -1,0 +1,7 @@
+<h1>Reset Your Password</h1>
+
+<%= simple_form_for @user, :url => users_path, :method => :put do |f| %>
+  <%= f.input :password %>
+  <%= f.input :password_confirmation %>
+  <%= f.button :submit, "Save", :class => "button primary" %>
+<% end %>

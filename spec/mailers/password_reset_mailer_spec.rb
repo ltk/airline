@@ -16,7 +16,7 @@ describe PasswordResetMailer do
     end
 
     it "contains a reset link" do
-      should have_body_text /\<a[^>]*href=['"]http:\/\/localhost:3000.*token=1234.*user_id=#{user.id}['"][^>]*>Click here to reset your password/
+      should have_body_text "http://localhost:3000/users/password/edit?token=1234"
     end
   end
 end

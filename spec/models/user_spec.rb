@@ -42,4 +42,22 @@ describe User do
       user.company_id.should_not be_blank
     end
   end
+
+  describe "#send_password_reset_instructions" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "set a new password_reset_token" do
+      SecureRandom.should_receive(:urlsafe_base64).with(20).and_return('code')
+      user.send_password_reset_instructions
+
+      user.password_reset_token.should == 'code'
+    end
+
+    it "sends an PasswordResetMailer" do
+      mail = double("mail", :deliver => nil)
+      PasswordResetMailer.stub(:send_reset_instructions).and_return(mail)
+      mail.should_receive(:deliver)
+      user.send_password_reset_instructions
+    end
+  end
 end
