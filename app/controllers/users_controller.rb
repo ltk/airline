@@ -23,8 +23,7 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     allow_self_service_only
 
-    @user.update_attributes(params[:user], as: :update)
-    if @user.save
+    if @user.update_attributes(params[:user], as: :update)
       redirect_to edit_user_path(@user.id), :notice => "Information updated"
     else
       redirect_to edit_user_path(@user.id), :alert => "There were errors with your submission"

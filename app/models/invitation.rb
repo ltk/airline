@@ -8,11 +8,11 @@ class Invitation < ActiveRecord::Base
   before_create :set_invite_code
   after_create :send_invite_email
 
+  private
+
   def self.code_unique?(code)
     find_by_code(code).nil?
   end
-
-  private
 
   def set_invite_code
     begin

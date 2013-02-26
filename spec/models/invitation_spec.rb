@@ -36,21 +36,4 @@ describe Invitation do
       invitation.save
     end
   end
-
-  describe ".code_unique?" do
-    subject { described_class.code_unique?('code') }
-
-    context "when passed a non-unique code" do
-      before do
-        SecureRandom.stub(:urlsafe_base64).and_return('code')
-        FactoryGirl.create(:invitation)
-      end
-
-      it { should be false }
-    end
-
-    context "when passed a unique code" do
-      it { should be true }
-    end
-  end
 end
