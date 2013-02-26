@@ -1,10 +1,6 @@
 <h1>Invite Your Coworkers</h1>
 
 <%= simple_form_for @invitation, :url => invitation_path do |f| %>
-  <ol>
-    <li><%= f.input :email %></li>
-    <li class="form-footer">
-      <%= f.button :submit, "Send Invite", :class => "button primary" %>
-    </li>
-  </ol>
+  <%= f.input :email %>
+  <%= f.button :submit, "Send Invite", :class => "button primary" %>
 <% end %>

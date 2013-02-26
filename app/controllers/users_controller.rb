@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_filter :ensure_authenticated, :except => [:new, :create]
+  before_filter :load_user, :only => [:edit, :update]
+
   def new
     @user = params[:code] ? User.new_from_invite_code(params[:code]) : User.new
   end
@@ -12,5 +15,22 @@ class UsersController < ApplicationController
       flash.now[:error] = "There were errors in your submission"
       render "new"
     end
+  end
+
+  def edit
+  end
+
+  def update
+    if @user.update_attributes(params[:user], :as => :update)
+      redirect_to edit_users_path, :notice => "Information updated"
+    else
+      redirect_to edit_users_path, :alert => "There were errors with your submission"
+    end
+  end
+
+  private
+
+  def load_user
+    @user = current_user
   end
 end

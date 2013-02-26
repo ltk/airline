@@ -1,10 +1,6 @@
 <h1>Sign Up for an Account</h1>
 
 <%= simple_form_for @user, :url => users_path do |f| %>
-  <ol>
-    <%= render 'form', :f => f %>
-    <li class="form-footer">
-      <%= f.button :submit, "Sign Up", :class => "button primary" %>
-    </li>
-  </ol>
+  <%= render 'form', :f => f %>
+  <%= f.button :submit, "Sign Up", :class => "button primary" %>
 <% end %>

@@ -75,11 +75,81 @@ describe "Users" do
     end
 
     def fill_in_sign_up_form_with(user)
+      attach_file "user_avatar", Rails.root.join('spec','fixtures','images','example.png')
       fill_in "user_first_name",            :with => user.first_name
       fill_in "user_last_name",             :with => user.last_name
       fill_in "user_email",                 :with => user.email
       fill_in "user_password",              :with => user.password
       fill_in "user_password_confirmation", :with => user.password_confirmation
     end
-  end  
+  end
+
+  describe "editing information" do
+    context "when logged in as the user being edited" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        login_with(user)
+        click_link "Edit Account"
+      end
+
+      context "providing a valid email address" do
+        it "can change email address" do
+          fill_in "Email", :with => "new@email.address"
+          click_button "Update Information"
+
+          current_path.should eql(edit_users_path)
+          page.should have_content "Information updated"
+          user.reload.email.should eql("new@email.address")
+        end
+      end
+
+      context "providing an invalid email address" do
+        before do
+          fill_in "Email", :with => "invalid@email"
+          click_button "Update Information"
+        end
+
+        it "re-renders the edit form with errors" do
+          page.should have_content "There were errors"
+          current_path.should eql(edit_users_path)
+        end
+
+        it "does not change the email address" do
+          old_email = user.email
+          old_email.should eql(user.reload.email)
+        end
+      end
+
+      context "providing a new password" do
+        before { fill_in "user_password", :with => 'new-password' }
+
+        context "with a matching password confirmation" do
+          it "should updated the crypted password" do
+            fill_in "user_password_confirmation", :with => 'new-password'
+            click_button "Update Information"
+            old_crypt_pass = user.crypted_password
+            old_crypt_pass.should_not eql(user.reload.crypted_password)
+          end
+        end
+      end
+
+      context "providing a new avatar file" do
+        before { attach_file "user_avatar", Rails.root.join('spec','fixtures','images','example.gif') }
+
+        it "saves and show the updated avatar" do
+          click_button "Update Information"
+
+          user.reload.avatar_url.should == "/uploads/user/avatar/#{user.id}/example.gif"
+          page.should have_xpath("//img[@src=\"#{user.avatar_url(:thumb)}\"]")
+        end
+      end
+    end
+  end
+
+  def login_with(user)
+    visit "/session/new"
+    fill_in "Email", :with => user.email
+    fill_in "Password", :with => user.password
+    click_button "Sign in"
+  end
 end
