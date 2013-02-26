@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   include SimplestAuth::Model
 
   attr_accessible :first_name, :last_name, :email, :company_id, :password, :password_confirmation, :company_attributes, :avatar
+  attr_protected :company_id, as: :update
 
   belongs_to :company
 

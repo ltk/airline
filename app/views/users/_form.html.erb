@@ -1,11 +1,11 @@
-<li><%= f.file_field :avatar %></li>
-<li><%= f.input :first_name %></li>
-<li><%= f.input :last_name %></li>
+<%= f.file_field :avatar, :label => 'Upload an Avatar Image' %>
+<%= f.input :first_name %>
+<%= f.input :last_name %>
 
 <% if f.object.company_id.nil? %>
-  <li><%= f.association :company, :label => 'Choose Your Company' %> or <%= link_to_add_association 'Add a New Company', f, :company %></li>
+  <div class="company-fields"><%= f.association :company, :label => 'Choose Your Company' %> or <%= link_to_add_association 'Add a New Company', f, :company %></div>
 <% end %>
 
-<li><%= f.input :email %></li>
-<li><%= f.input :password %></li>
-<li><%= f.input :password_confirmation %></li>
+<%= f.input :email %>
+<%= f.input :password %>
+<%= f.input :password_confirmation %>
