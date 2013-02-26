@@ -88,10 +88,7 @@ describe "Users" do
     context "when logged in as the user being edited" do
       let(:user) { FactoryGirl.create(:user) }
       before do
-        visit "/session/new"
-        fill_in "Email", :with => user.email
-        fill_in "Password", :with => user.password
-        click_button "Sign in"
+        login_with(user)
         visit "/users/#{user.id}/edit"
       end
 
@@ -139,24 +136,20 @@ describe "Users" do
       context "providing a new avatar file" do
         before { attach_file "user_avatar", Rails.root.join('spec','fixtures','images','example.gif') }
 
-        it "should save and show the updated avatar" do
+        it "saves and show the updated avatar" do
           click_button "Update Information"
 
           user.reload.avatar_url.should == "/uploads/user/avatar/#{user.id}/example.gif"
           page.should have_xpath("//img[@src=\"#{user.avatar_url(:thumb)}\"]")
         end
       end
-
     end
 
     context "when logged in as a different user" do
       let(:editee) { FactoryGirl.create(:user) }
       let(:editor) { FactoryGirl.create(:user) }
       before do
-        visit "/session/new"
-        fill_in "Email", :with => editor.email
-        fill_in "Password", :with => editor.password
-        click_button "Sign in"
+        login_with(editor)
         visit "/users/#{editee.id}/edit"
       end
 
@@ -165,5 +158,12 @@ describe "Users" do
         page.should have_content "You don't have permission to edit that user account"
       end
     end
+  end
+
+  def login_with(user)
+    visit "/session/new"
+    fill_in "Email", :with => user.email
+    fill_in "Password", :with => user.password
+    click_button "Sign in"
   end
 end

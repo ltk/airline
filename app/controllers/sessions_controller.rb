@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:email], params[:password])
+    user = User.authenticate(params[:session][:email], params[:session][:password])
     if user
       self.current_user = user
       redirect_to root_path, :alert => "Signed in successfully"
