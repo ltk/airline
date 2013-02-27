@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225235629) do
+ActiveRecord::Schema.define(:version => 20130226214208) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -34,10 +34,13 @@ ActiveRecord::Schema.define(:version => 20130225235629) do
     t.string   "last_name"
     t.string   "email"
     t.string   "crypted_password"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "company_id"
     t.string   "avatar"
+    t.string   "password_reset_token", :limit => 30
   end
+
+  add_index "users", ["password_reset_token"], :name => "index_users_on_password_reset_token"
 
 end

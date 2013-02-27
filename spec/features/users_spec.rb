@@ -6,7 +6,7 @@ describe "Users" do
     context "without an invitation code" do
       before do
         FactoryGirl.create(:company, :name => "Viget Labs")
-        visit "/users/new"
+        visit "/user/new"
       end
 
       describe "with valid user information" do
@@ -52,14 +52,14 @@ describe "Users" do
       describe "that is valid" do
         it "fills in the user's email address" do
           invitation = FactoryGirl.create(:invitation)
-          visit "/users/new?code=#{invitation.code}"
+          visit "/user/new?code=#{invitation.code}"
           email_field_value.should == invitation.email
         end
       end
 
       describe "that is invalid" do
         it "doesn't fill in an email address" do
-          visit "/users/new?code=#{'fakecode'*5}"
+          visit "/user/new?code=#{'fakecode'}"
 
           email_field_value.should be_blank
         end
@@ -97,7 +97,7 @@ describe "Users" do
           fill_in "Email", :with => "new@email.address"
           click_button "Update Information"
 
-          current_path.should eql(edit_users_path)
+          current_path.should eql(edit_user_path)
           page.should have_content "Information updated"
           user.reload.email.should eql("new@email.address")
         end
@@ -111,7 +111,7 @@ describe "Users" do
 
         it "re-renders the edit form with errors" do
           page.should have_content "There were errors"
-          current_path.should eql(edit_users_path)
+          current_path.should eql(edit_user_path)
         end
 
         it "does not change the email address" do

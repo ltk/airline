@@ -16,8 +16,11 @@ class User < ActiveRecord::Base
   validates :password, :length => {:minimum => 5}, :if => :password_required?
   validates :password, :presence => true, :on => :create
   validates :password_confirmation, :presence => true, :on => :create
+  validates :password_reset_token, :uniqueness => true, :allow_nil => true
 
   mount_uploader :avatar, AvatarUploader
+
+  before_save :unset_password_reset_token
 
   def self.new_from_invite_code(code)
     invite = Invitation.find_by_code(code)
@@ -26,5 +29,24 @@ class User < ActiveRecord::Base
     else
       self.new
     end
+  end
+
+  def send_password_reset_instructions
+    set_password_reset_token
+    PasswordResetMailer.send_reset_instructions(self).deliver
+  end
+
+  private
+
+  def set_password_reset_token
+    update_attributes(:password_reset_token => new_password_reset_token)
+  end
+
+  def new_password_reset_token
+    SecureRandom.urlsafe_base64(20)
+  end
+
+  def unset_password_reset_token
+    self.password_reset_token = nil unless password_reset_token_changed?
   end
 end
