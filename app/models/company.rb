@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
 
   has_many :users
   has_many :invitations, :dependent => :destroy
+  has_many :images
   
   validates :name, :presence => true
 end
