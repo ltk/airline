@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   attr_protected :company_id, :company_attributes, as: :update
 
   belongs_to :company
+  has_many :images
 
   accepts_nested_attributes_for :company, :reject_if => :all_blank
 

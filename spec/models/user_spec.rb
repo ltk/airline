@@ -30,6 +30,11 @@ describe User do
     it { should_not allow_mass_assignment_of(:company_attributes).as(:update) }
   end
 
+  context 'associations' do
+    it { should belong_to(:company) }
+    it { should have_many(:images) }
+  end
+
   context "after save" do
     let(:user) { FactoryGirl.create(:user, :password_reset_token => "1234") }
     before do

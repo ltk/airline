@@ -9,6 +9,7 @@ Airline::Application.routes.draw do
   
   resource :invitation, :only => [:new, :create]
   resource :password, :only => [:new, :create]
+  resources :images, :only => [:new, :create]
 
   root :to => "users#new"
 end
