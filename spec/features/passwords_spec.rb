@@ -43,14 +43,14 @@ describe "Passwords" do
     context "with a valid token" do
       before { visit "/user/password/edit/#{user.password_reset_token}" }
 
-      it "render the reset password form" do
+      it "renders the reset password form" do
         current_path.should eql(pretty_edit_user_password_path(:token => user.password_reset_token))
         page.should have_content "Reset Your Password"
       end
     end
 
     context "with an invalid token" do
-      before { visit "/user/password/edit?token=invalid-token" }
+      before { visit "/user/password/edit/invalid-token" }
 
       it "redirects to the password reset request page" do
         current_path.should eql(new_password_path)
