@@ -81,7 +81,7 @@ describe User do
     end
 
     it "sends an PasswordResetMailer" do
-      mail = double("mail", :deliver => nil)
+      mail = double("mail")
       PasswordResetMailer.stub(:send_reset_instructions).and_return(mail)
       mail.should_receive(:deliver)
       user.send_password_reset_instructions
