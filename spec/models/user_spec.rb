@@ -36,8 +36,24 @@ describe User do
       user.update_attributes(:password => "new-password", :password_confirmation => "new-password")
     end
 
-    it "unsets the password reset token" do
-      user.password_reset_token.should be_nil
+    context "when setting a password reset token" do
+      before do
+        user.update_attributes(:password_reset_token => "new-reset-token")
+      end
+
+      it "does not unset the password reset token" do
+        user.password_reset_token.should_not be_nil
+      end
+    end
+
+    context "when not setting a password reset token" do
+      before do
+        user.update_attributes(:password => "new-password", :password_confirmation => "new-password")
+      end
+
+      it "unsets the password reset token" do
+        user.password_reset_token.should be_nil
+      end
     end
   end
 

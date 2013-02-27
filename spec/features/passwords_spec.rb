@@ -68,28 +68,36 @@ describe "Passwords" do
 
     context "providing matching password and confirmation" do
       before do
-        fill_in "user_password", :with => 'new-password'
-        fill_in "user_password_confirmation", :with => 'new-password'
+        fill_in "user_password", :with => "new-password"
+        fill_in "user_password_confirmation", :with => "new-password"
         click_button "Save"
       end
 
-      it "changes the password" do
-        initial_crypt_password.should_not eql(user.reload.crypted_password)
+      it "displays a success message" do
+        page.should have_content "Information updated"
       end
 
-      it "unsets the password reset token" do
-        user.reload.password_reset_token.should be_nil
+      it "changes the password" do
+        click_link "Sign Out"
+        click_link "Sign In"
+        fill_in "Email", :with => user.email
+        fill_in "Password", :with => "new-password"
+        click_button "Sign in"
+
+        page.should have_content "Signed in successfully"
       end
     end
 
     context "providing non-matching password and confirmation" do
       before do
-        fill_in "user_password", :with => 'new-password'
-        fill_in "user_password_confirmation", :with => 'different-new-password'
+        fill_in "user_password", :with => "new-password"
+        fill_in "user_password_confirmation", :with => "different-new-password"
+        click_button "Save"
       end
 
-      it "does not change the password" do
-        initial_crypt_password.should eql(user.reload.crypted_password)
+      it "re-renders an edit form with errors" do
+        current_path.should eql(edit_user_path)
+        page.should have_content "There were errors with your submission"
       end
     end
   end
