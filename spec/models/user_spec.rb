@@ -30,6 +30,17 @@ describe User do
     it { should_not allow_mass_assignment_of(:company_attributes).as(:update) }
   end
 
+  context "after save" do
+    let(:user) { FactoryGirl.create(:user, :password_reset_token => "1234") }
+    before do
+      user.update_attributes(:password => "new-password", :password_confirmation => "new-password")
+    end
+
+    it "unsets the password reset token" do
+      user.password_reset_token.should be_nil
+    end
+  end
+
   describe ".new_from_invite_code" do
     let(:invite) { FactoryGirl.create(:invitation) }
     let(:user) { User.new_from_invite_code(invite.code) }

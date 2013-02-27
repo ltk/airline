@@ -76,6 +76,10 @@ describe "Passwords" do
       it "changes the password" do
         initial_crypt_password.should_not eql(user.reload.crypted_password)
       end
+
+      it "unsets the password reset token" do
+        user.reload.password_reset_token.should be_nil
+      end
     end
 
     context "providing non-matching password and confirmation" do

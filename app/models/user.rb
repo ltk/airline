@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader
 
+  before_save :unset_password_reset_token
+
   def self.new_from_invite_code(code)
     invite = Invitation.find_by_code(code)
     if invite
@@ -42,5 +44,9 @@ class User < ActiveRecord::Base
 
   def new_password_reset_token
     SecureRandom.urlsafe_base64(20)
+  end
+
+  def unset_password_reset_token
+    self.password_reset_token = nil unless password_reset_token_changed?
   end
 end
