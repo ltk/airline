@@ -1,6 +1,6 @@
 <h1>Edit Your Information</h1>
 
-<%= simple_form_for @user, :url => users_path, :method => :put, :html => { :multipart => true } do |f| %>
+<%= simple_form_for @user, :url => user_path, :method => :put, :html => { :multipart => true } do |f| %>
   <%= image_tag(@user.avatar_url(:thumb)) if @user.avatar? %>
   <%= render 'form', :f => f %>
   <%= f.button :submit, :value => 'Update Information' %>

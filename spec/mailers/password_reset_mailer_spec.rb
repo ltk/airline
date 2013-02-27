@@ -16,7 +16,7 @@ describe PasswordResetMailer do
     end
 
     it "contains a reset link" do
-      should have_body_text "http://localhost:3000/users/password/edit?token=1234"
+      should have_body_text "http://localhost:3000/user/password/edit?token=1234"
     end
   end
 end

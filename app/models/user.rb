@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   private
 
   def set_password_reset_token
-    update_attribute(:password_reset_token, new_password_reset_token)
+    update_attributes(:password_reset_token => new_password_reset_token)
   end
 
   def new_password_reset_token

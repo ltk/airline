@@ -1,7 +1,9 @@
 Airline::Application.routes.draw do
+  match "/user/password/edit/:token" => "passwords#edit", :as => :pretty_edit_user_password
+
   resource :session, :only => [:new, :create, :destroy]
 
-  resource :users, :except => :show do
+  resource :user, :except => :show do
     resource :password, :only => [:edit, :update]
   end
   

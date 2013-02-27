@@ -22,9 +22,9 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(params[:user], :as => :update)
-      redirect_to edit_users_path, :notice => "Information updated"
+      redirect_to edit_user_path, :notice => "Information updated"
     else
-      redirect_to edit_users_path, :alert => "There were errors with your submission"
+      redirect_to edit_user_path, :alert => "There were errors with your submission"
     end
   end
 

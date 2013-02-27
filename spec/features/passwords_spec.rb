@@ -41,16 +41,16 @@ describe "Passwords" do
     before { request_password_reset_for(user) }
 
     context "with a valid token" do
-      before { visit "/users/password/edit?token=#{user.password_reset_token}" }
+      before { visit "/user/password/edit/#{user.password_reset_token}" }
 
       it "render the reset password form" do
-        current_path.should eql(edit_users_password_path)
+        current_path.should eql(pretty_edit_user_password_path(:token => user.password_reset_token))
         page.should have_content "Reset Your Password"
       end
     end
 
     context "with an invalid token" do
-      before { visit "/users/password/edit?token=invalid-token" }
+      before { visit "/user/password/edit?token=invalid-token" }
 
       it "redirects to the password reset request page" do
         current_path.should eql(new_password_path)
@@ -63,7 +63,7 @@ describe "Passwords" do
     let(:initial_crypt_password) { user.crypted_password }
     before do
       request_password_reset_for(user)
-      visit "/users/password/edit?token=#{user.password_reset_token}"
+      visit "/user/password/edit/#{user.password_reset_token}"
     end
 
     context "providing matching password and confirmation" do
