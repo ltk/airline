@@ -7,4 +7,6 @@ class Image < ActiveRecord::Base
   belongs_to :company
 
   mount_uploader :file, ImageFileUploader
+
+  delegate :avatar?, :avatar_url, :full_name, :to => :user, :prefix => true
 end

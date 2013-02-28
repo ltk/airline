@@ -9,7 +9,12 @@ Airline::Application.routes.draw do
   
   resource :invitation, :only => [:new, :create]
   resource :password, :only => [:new, :create]
-  resources :images, :only => [:new, :create]
+  resources :images, :only => [:create]
+  resource :company, :only => [:show]
+
+  scope :constraints => lambda{|req| req.session[:user_id].present? } do
+    root :to => "images#index"
+  end
 
   root :to => "users#new"
 end
