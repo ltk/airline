@@ -1,0 +1,14 @@
+<li class="span12">
+  <div id="image-<%= image.id %>" class="thumbnail">
+    <div class="media">
+      <a class="pull-left" href="#">
+        <%= image_tag(image.user_avatar_url(:thumb), :class => 'media-object') %>
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading"><%= image.user_full_name %></h4>
+        <p><%= time_ago_in_words(image.created_at) %> ago</p>
+      </div>
+    </div>
+    <%= image_tag(image.file_url(:small)) %>
+  </div>
+</li>

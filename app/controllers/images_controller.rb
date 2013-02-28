@@ -1,8 +1,6 @@
 class ImagesController < ApplicationController
   before_filter :ensure_authenticated
-
-  def new
-  end
+  before_filter :set_company, :only => :index
 
   def create
     image = Image.new(params[:image])
@@ -10,9 +8,20 @@ class ImagesController < ApplicationController
     image.company = current_user.company if current_user.company
 
     if image.save
-      redirect_to new_image_path, :notice => "Image saved. Add another?"
+      message = { :notice => "Image saved. Add another?" }
     else
-      redirect_to new_image_path, :alert => "There were errors with your submission"
+      message = { :alert => "There were errors with your submission" }
     end
+    redirect_to root_path, message
+  end
+
+  def index
+    @images = @current_company.images.order("created_at DESC").page(params[:page]).per_page(25)
+  end
+
+  private
+
+  def set_company
+    @current_company = current_user.company if current_user.company.present?
   end
 end

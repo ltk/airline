@@ -92,4 +92,12 @@ describe User do
       user.send_password_reset_instructions
     end
   end
+
+  describe "#full_name" do
+    let(:user) { FactoryGirl.create(:user, :first_name => "First", :last_name => "Last") }
+
+    it "returns the user's full name" do
+      user.full_name.should eql("First Last")
+    end
+  end
 end
