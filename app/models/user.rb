@@ -37,6 +37,10 @@ class User < ActiveRecord::Base
     PasswordResetMailer.send_reset_instructions(self).deliver
   end
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   private
 
   def set_password_reset_token
