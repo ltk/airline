@@ -1,6 +1,14 @@
-<div class="well">
-  <%= simple_form_for :image, :url => images_path do |f| %>
-    <%= f.file_field :file %>
-    <%= f.button :submit, :value => "Add it!", :class => "btn-primary btn-large" %>
-  <% end %>
+<%= simple_form_for Image.new, :url => images_path do |f| %>
+  <h2 class="file-upload-instructions">Drop files anywhere or <a href="#" class="file-upload-choose" title="Choose an image to upload.">choose</a>.</h2>
+  <%= f.file_field :file, :multiple => true, :name => "image[file]" %>
+  <%= f.button :submit, :value => "Add it!", :class => "btn-primary btn-large" %>
+<% end %>
+<div class="uploads">
+  <script id="template-upload" type="text/x-tmpl">
+  <div class="upload">
+    {%=o.name%}
+    <div class="progress"><div class="bar" style="width: 0%"></div></div>
+  </div>
+  </script>
 </div>
+

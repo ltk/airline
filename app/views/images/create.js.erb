@@ -1,0 +1,6 @@
+<% if @image.new_record? %>
+  alert("Failed to upload image: <%= j @image.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+  $("ul.images").prepend("<%= j render(@image) %>");
+  $("#no-images-message").remove()
+<% end %>

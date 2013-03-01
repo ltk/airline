@@ -1,8 +1,8 @@
-<li class="span12">
-  <div id="image-<%= image.id %>" class="thumbnail">
+<li class="span12 image">
+  <div id="image-<%= image.id %>">
     <div class="media">
       <a class="pull-left" href="#">
-        <%= image_tag(image.user_avatar_url(:thumb), :class => 'media-object') %>
+        <%= image_tag(image.user_avatar_url(:thumb), :class => 'media-object img-circle') %>
       </a>
       <div class="media-body">
         <h4 class="media-heading"><%= image.user_full_name %></h4>

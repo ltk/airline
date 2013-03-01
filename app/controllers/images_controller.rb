@@ -3,16 +3,10 @@ class ImagesController < ApplicationController
   before_filter :set_company, :only => :index
 
   def create
-    image = Image.new(params[:image])
-    image.user = current_user
-    image.company = current_user.company if current_user.company
-
-    if image.save
-      message = { :notice => "Image saved. Add another?" }
-    else
-      message = { :alert => "There were errors with your submission" }
-    end
-    redirect_to root_path, message
+    @image = Image.new(params[:image])
+    @image.user = current_user
+    @image.company = current_user.company if current_user.company
+    @image.save
   end
 
   def index

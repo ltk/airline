@@ -3,3 +3,29 @@
 
 // Include responsive Bootstrap styles
 // @import "bootstrap-responsive";
+
+#new_image {
+  input {
+    display: none;
+  }
+  h2 {
+    text-align: center;
+    color: #cccccc;
+  }
+}
+
+.images {
+  .image {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #DDDDDD;
+
+    img {
+      margin-top: 15px;
+    }
+
+    .media img {
+      margin-top: 0;
+    }
+  }
+}
