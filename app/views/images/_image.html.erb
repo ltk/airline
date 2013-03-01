@@ -2,13 +2,19 @@
   <div id="image-<%= image.id %>">
     <div class="media">
       <a class="pull-left" href="#">
-        <%= image_tag(image.user_avatar_url(:thumb), :class => 'media-object img-circle') %>
+        <%= image_tag image.user_avatar_url(:thumb), :class => 'media-object img-circle' %>
       </a>
       <div class="media-body">
         <h4 class="media-heading"><%= image.user_full_name %></h4>
         <p><%= time_ago_in_words(image.created_at) %> ago</p>
       </div>
     </div>
-    <%= image_tag(image.file_url(:small)) %>
+    <%= link_to image_tag(image.file_url(:small)), "#fullsize-image-#{image.id}", "data-toggle" => "modal" %>
+  </div>
+  <div id="fullsize-image-<%= image.id %>" class="modal hide">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <div class="modal-body">
+      <%= image_tag image.file_url %>
+    </div>
   </div>
 </li>
