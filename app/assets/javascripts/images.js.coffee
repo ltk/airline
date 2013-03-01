@@ -1,4 +1,6 @@
 jQuery ->
+  PrivatePub.subscribe "/images/new", (data,channel) ->
+    eval data.js
   $('.file-upload-choose').click (e) ->
     e.preventDefault
     $(this).closest('form').children('input[type="file"]').click()
@@ -19,3 +21,5 @@ jQuery ->
         progress = parseInt(data.loaded / data.total * 100, 10)
         console.log data
         data.context.find('.bar').css('width', progress + '%')
+        if progress == 100
+          data.context.fadeOut(3000)

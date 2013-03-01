@@ -6,7 +6,11 @@ class ImagesController < ApplicationController
     @image = Image.new(params[:image])
     @image.user = current_user
     @image.company = current_user.company if current_user.company
-    @image.save
+
+    if @image.save
+      PrivatePub.publish_to("/images/new", :js => render_to_string, :image => @image)
+      render :nothing => true 
+    end
   end
 
   def index
