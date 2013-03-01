@@ -8,4 +8,5 @@
   <%= render @images %>
 </ul>
 <%= will_paginate(@images) %>
-<%= subscribe_to "/images/new" %>
+<%= javascript_tag "$(function(){PrivatePub.subscribe('/companies/#{@current_company.bayeux_token}', function(data,channel){eval(data.js)})})" %>
+<%= subscribe_to "/companies/#{@current_company.bayeux_token}" %>

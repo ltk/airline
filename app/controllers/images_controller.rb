@@ -7,8 +7,8 @@ class ImagesController < ApplicationController
     @image.user = current_user
     @image.company = current_user.company if current_user.company
 
-    if @image.save
-      PrivatePub.publish_to("/images/new", :js => render_to_string, :image => @image)
+    if @image.save && @image.company
+      PrivatePub.publish_to("/companies/#{@image.company.bayeux_token}", :js => render_to_string, :image => @image)
       render :nothing => true 
     end
   end

@@ -1,6 +1,4 @@
 jQuery ->
-  PrivatePub.subscribe "/images/new", (data,channel) ->
-    eval data.js
   $('.file-upload-choose').click (e) ->
     e.preventDefault
     $(this).closest('form').children('input[type="file"]').click()
