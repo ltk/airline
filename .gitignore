@@ -15,6 +15,7 @@
 /tmp
 coverage/*
 config/database.yml
+config/private_pub.yml
 public/uploads
 /public/avatars/user/
 
