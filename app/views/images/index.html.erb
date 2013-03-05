@@ -1,10 +1,10 @@
 <%= render "form" %>
 
-<% unless @images.empty? %>
+<% if @images.any? %>
   <ul class="images row">
     <%= render @images %>
   </ul>
   <%= paginate @images %>
 <% else %>
-  <div class='alert'><%= no_images_message %></div>
+  <div class="alert">(Crickets) There aren't any images here yet.</div>
 <% end %>
