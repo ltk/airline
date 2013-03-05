@@ -44,11 +44,11 @@ describe "Images" do
 
           it "displays a list of image entries" do
             company_images = user.images.push(company_image)
-            company_images.each { |img| page.should have_xpath("//div[@id=\"image-#{img.id}\"]") }
+            company_images.each { |img| page.should have_selector("#image-#{img.id}") }
           end
 
           describe "each image entry" do
-            subject { find(:xpath, "//div[@id=\"image-#{user.images.first.id}\"]") }
+            subject { find("#image-#{user.images.first.id}") }
 
             it "has a human-readable timestamp" do
               should have_content("less than a minute ago")
@@ -113,7 +113,7 @@ describe "Images" do
           let(:user) { FactoryGirl.create(:user_with_images, :company_id => nil) }
 
           it "should display a list of images" do
-            user.images.each { |img| page.should have_xpath("//div[@id=\"image-#{img.id}\"]") }
+            user.images.each { |img| page.should have_selector("#image-#{img.id}") }
           end
         end
       end

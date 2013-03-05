@@ -10,5 +10,5 @@ class Image < ActiveRecord::Base
 
   delegate :avatar?, :avatar_url, :full_name, :to => :user, :prefix => true
 
-  scope :newest_first, lambda { order("images.created_at DESC") }
+  scope :newest, lambda { order("images.created_at DESC") }
 end

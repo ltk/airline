@@ -34,6 +34,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def build_image(image_attributes)
+    image = images.build(image_attributes)
+    image.company = company
+    image
+  end
+
   def send_password_reset_instructions
     set_password_reset_token
     PasswordResetMailer.send_reset_instructions(self).deliver
@@ -44,7 +50,7 @@ class User < ActiveRecord::Base
   end
 
   def image_source
-    company ? company : self
+    company || self
   end
 
   private

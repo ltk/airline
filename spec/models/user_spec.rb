@@ -118,4 +118,21 @@ describe User do
       end
     end
   end
+
+  describe "#build_image" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:image) { user.build_image({ :file => "/some_directory/example.png" }) }
+
+    it "returns an instance of Image" do
+      image.should be_a(Image)
+    end
+
+    it "assigns itself as the image's user" do
+      image.user.should eql(user)
+    end
+
+    it "assigns it's company as the image's company" do
+      image.company.should eql(user.company)
+    end
+  end
 end
