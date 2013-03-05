@@ -1,9 +1,9 @@
 <li class="image span12">
   <div id="image-<%= image.id %>">
     <div class="media">
-      <a class="pull-left" href="#">
+      <div class="pull-left">
         <%= image_tag(image.user_avatar_url(:thumb), :class => 'media-object img-circle') %>
-      </a>
+      </div>
       <div class="media-body">
         <h4 class="media-heading"><%= image.user_full_name %></h4>
         <p><%= time_ago_in_words(image.created_at) %> ago</p>

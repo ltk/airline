@@ -4,8 +4,9 @@
 
 <% if f.object.company_id.nil? %>
   <div class="company-fields"><%= f.association :company, :label => 'Choose Your Company' %> or <%= link_to_add_association 'Add a New Company', f, :company %></div>
+<% else %>
+  <span class="company-name">Company: <%= f.object.company_name %></span>
 <% end %>
-
 <%= f.input :email %>
 <%= f.input :password %>
 <%= f.input :password_confirmation %>

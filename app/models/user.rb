@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :presence => true, :on => :create
   validates :password_reset_token, :uniqueness => true, :allow_nil => true
 
+  delegate :name, :to => :company, :prefix => true
+
   mount_uploader :avatar, AvatarUploader
 
   before_save :unset_password_reset_token
@@ -39,6 +41,10 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def image_source
+    company ? company : self
   end
 
   private

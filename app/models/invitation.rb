@@ -5,6 +5,8 @@ class Invitation < ActiveRecord::Base
 
   validates :email, :presence => true, :email => true
 
+  delegate :name, :to => :company, :prefix => true
+
   before_create :set_invite_code
   after_create :send_invite_email
 

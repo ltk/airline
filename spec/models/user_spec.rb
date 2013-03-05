@@ -100,4 +100,22 @@ describe User do
       user.full_name.should eql("First Last")
     end
   end
+
+  describe "#image_source" do
+    context "for a user with no associated company" do
+      let(:user) { FactoryGirl.create(:user, :company_id => nil) }
+
+      it "returns the user" do
+        user.image_source.should eql(user)
+      end
+    end
+
+    context "for a user with an associated company" do
+      let(:user) { FactoryGirl.create(:user) }
+
+      it "returns the user's company" do
+        user.image_source.should eql(user.company)
+      end
+    end
+  end
 end

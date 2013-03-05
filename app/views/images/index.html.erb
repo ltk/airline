@@ -4,7 +4,7 @@
   <ul class="images row">
     <%= render @images %>
   </ul>
-  <%= will_paginate(@images) %>
+  <%= paginate @images %>
 <% else %>
   <div class='alert'><%= no_images_message %></div>
 <% end %>
