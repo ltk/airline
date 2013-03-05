@@ -131,7 +131,7 @@ describe User do
       image.user.should eql(user)
     end
 
-    it "assigns it's company as the image's company" do
+    it "assigns its company as the image's company" do
       image.company.should eql(user.company)
     end
   end
