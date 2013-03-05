@@ -17,5 +17,9 @@ describe InvitationMailer do
     it "contains a signup link" do
       should have_body_text "#{default_url_options[:host]}/user/new?code=#{invitation.code}"
     end
+
+    it "contains the company name" do
+      should have_body_text "Acme, Inc."
+    end
   end
 end

@@ -21,7 +21,7 @@ describe Invitation do
 
     it "choose a new code when choosing a duplicate" do
       SecureRandom.should_receive(:urlsafe_base64).with(12).exactly(3).times.and_return("code", "code", "new_code")
-      described_class.create(:email => "user@host.com", :company_id => 1)
+      FactoryGirl.create(:invitation)
       invitation.save
     end
   end

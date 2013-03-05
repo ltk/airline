@@ -1,1 +1,1 @@
-You received an invite to join Airline. <%= link_to "Click to join.", new_user_url(:code => @invitation.code) %>
+You received an invite to join <% if @invitation.company.present? %><%= @invitation.company_name %> on <% end %>Airline. <%= link_to "Click to join.", new_user_url(:code => @invitation.code) %>

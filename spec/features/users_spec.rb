@@ -92,6 +92,10 @@ describe "Users" do
         click_link "Edit Account"
       end
 
+      it "displays the user's company name" do
+        page.should have_content "Acme, Inc."
+      end
+
       context "providing a valid email address" do
         it "can change email address" do
           fill_in "Email", :with => "new@email.address"

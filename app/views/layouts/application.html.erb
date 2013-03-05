@@ -15,7 +15,7 @@
           <% if logged_in? %>
             <li><%= link_to "Add/View Images", root_path %></li>
             <li><%= link_to "Invite Coworkers", new_invitation_path %></li>
-            <li><%= link_to "Edit Account", edit_user_path(current_user) %></li>
+            <li><%= link_to "Edit Account", edit_user_path %></li>
             <li><%= link_to "Sign Out", session_path, :method => :delete %></li>
           <% else %>
             <li><%= link_to "Sign Up", new_user_path %></li>
