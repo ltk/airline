@@ -50,10 +50,29 @@ describe "Users" do
 
     context "with an invitation code" do
       describe "that is valid" do
+        let(:invitation) { FactoryGirl.create(:invitation) }
+        before { visit "/user/new?code=#{invitation.code}" }
+
         it "fills in the user's email address" do
-          invitation = FactoryGirl.create(:invitation)
-          visit "/user/new?code=#{invitation.code}"
           email_field_value.should == invitation.email
+        end
+
+        it "fills in the user's company" do
+          page.should have_content(Company.find(invitation.company_id).name)
+        end
+
+        describe "submitting the form" do
+          before do
+            fill_in "user_first_name",            :with => "John"
+            fill_in "user_last_name",             :with => "Smith"
+            fill_in "user_password",              :with => "password"
+            fill_in "user_password_confirmation", :with => "password"
+            click_button "Sign Up"
+          end
+
+          it "assigns the proper company to the user" do
+            User.find_by_email(invitation.email).company_id.should == invitation.company_id
+          end
         end
       end
 
