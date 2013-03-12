@@ -9,7 +9,6 @@ class Image < ActiveRecord::Base
   mount_uploader :file, ImageFileUploader
 
   delegate :avatar?, :avatar_url, :full_name, :slug, :to => :user, :prefix => true
-  delegate :slug, :to => :company, :prefix => true
 
   scope :newest, lambda { order("images.created_at DESC") }
 end

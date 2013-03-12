@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
   private
 
   def redirect_to_images
-      redirect_to company_images_path(:company_slug => current_user.company_slug), :alert => "Signed in successfully"
+    redirect_to_company_stream({ :alert => "Signed in successfully" })
   end
 
   def session_params

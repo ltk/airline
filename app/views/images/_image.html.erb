@@ -1,7 +1,7 @@
 <li class="image span12">
   <div id="image-<%= image.id %>">
     <div class="media">
-      <%= link_to image_tag(image.user_avatar_url(:thumb), :class => 'media-object img-circle'), company_user_images_path(:company_slug => image.company_slug, :user_slug => image.user_slug), :class => "pull-left" %>
+      <%= link_to image_tag(image.user_avatar_url(:thumb), :class => 'media-object img-circle'), company_user_images_path(:company_slug => current_company.slug, :user_slug => image.user_slug), :class => "pull-left" %>
       <div class="media-body">
         <h4 class="media-heading"><%= image.user_full_name %></h4>
         <p><%= time_ago_in_words(image.created_at) %> ago</p>
