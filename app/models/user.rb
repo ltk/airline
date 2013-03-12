@@ -51,14 +51,6 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def authorized_for_company?(company)
-    company.present? && self.company == company
-  end
-
-  def coworker_of?(user)
-    user.present? && user.company == self.company
-  end
-
   private
 
   def set_password_reset_token

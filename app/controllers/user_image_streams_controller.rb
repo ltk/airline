@@ -7,7 +7,7 @@ class UserImageStreamsController < ImageStreamsController
   end
 
   def ensure_authorized
-    if params[:user_slug].present? && !current_user.coworker_of?(stream_source)
+    if stream_source.nil? || stream_source.company != current_company
       redirect_to_company_stream
     end
   end

@@ -122,41 +122,4 @@ describe User do
       image.company.should eql(user.company)
     end
   end
-
-  describe "#coworker_of?" do
-    let(:company) { create(:company) }
-    let(:user) { create(:user, :company => company) }
-
-    context "when passed a user in a different company" do
-      let(:other_user) { create(:user, :company => create(:company)) }
-      subject{ user.coworker_of?(other_user) }
-
-      it { should be_false }
-    end
-
-    context "when passed a user in the same company" do
-      let(:other_user) { create(:user, :company => company) }
-      subject{ user.coworker_of?(other_user) }
-
-      it { should be_true }
-    end
-  end
-
-  describe "#authorized_for_company?" do
-    let(:user) { create(:user) }
-
-    context "when passed a different company" do
-      let(:company) { create(:company) }
-      subject{ user.authorized_for_company?(company) }
-
-      it { should be_false }
-    end
-
-    context "when passed the user's company" do
-      let(:company) { user.company }
-      subject{ user.authorized_for_company?(company) }
-
-      it { should be_true }
-    end
-  end
 end
