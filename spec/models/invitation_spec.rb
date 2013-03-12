@@ -10,7 +10,7 @@ describe Invitation do
   end
 
   context "before create" do
-    let(:invitation) { FactoryGirl.build(:invitation) }
+    let(:invitation) { build(:invitation) }
 
     it "sets a code on the record" do
       SecureRandom.should_receive(:urlsafe_base64).with(12).and_return('code')
@@ -21,13 +21,13 @@ describe Invitation do
 
     it "choose a new code when choosing a duplicate" do
       SecureRandom.should_receive(:urlsafe_base64).with(12).exactly(3).times.and_return("code", "code", "new_code")
-      FactoryGirl.create(:invitation)
+      create(:invitation)
       invitation.save
     end
   end
 
   context "after create" do
-    let(:invitation) { FactoryGirl.build(:invitation) }
+    let(:invitation) { build(:invitation) }
 
     it "sends an InvitationMailer" do
       mail = double("mail", :deliver => nil)

@@ -13,8 +13,19 @@ Airline::Application.routes.draw do
   resource :company, :only => [:show]
 
   scope :constraints => lambda{|req| req.session[:user_id].present? } do
-    root :to => "images#index"
+    match "/:company_slug" => "images#index", :as => :company_images
+    match "/:company_slug/:user_slug" => "images#index", :as => :company_user_images
+    root :to => redirect { |p,req| company_feed_path(req) }
   end
 
-  root :to => "users#new"
+  match "/:company_slug(/:user_slug)" => redirect("/")
+  root :to => "homepage#show"
+
+  def company_feed_path(request)
+    "/#{request_user(request).company_slug}"
+  end
+
+  def request_user(request)
+    User.find(request.session[:user_id])
+  end
 end

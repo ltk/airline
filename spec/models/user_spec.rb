@@ -2,19 +2,24 @@ require 'spec_helper'
 
 describe User do
   context 'validations' do
-    before do
-      FactoryGirl.create(:user)
-    end
+    before { create(:user) }
 
     it { should validate_presence_of(:first_name) }
     it { should validate_presence_of(:last_name) }
+    it { should validate_presence_of(:slug) }
     it { should validate_presence_of(:email) }
+    it { should validate_presence_of(:company) }
     it { should validate_uniqueness_of(:email) }
     it { should_not allow_value("not_an_email").for(:email) }
     it { should_not allow_value("not@an-email").for(:email) }
     it { should allow_value("is@an-email.com").for(:email) }
     it { should_not allow_value("1234").for(:password) }
     it { should allow_value("12345").for(:password) }
+
+    it "does not allow duplicate slugs" do
+      new_user = create(:user)
+      expect{ new_user.update_attributes(:slug => user.slug) }.to raise_error
+    end
   end
 
   context 'mass assignment' do
@@ -36,7 +41,7 @@ describe User do
   end
 
   context "after save" do
-    let(:user) { FactoryGirl.create(:user, :password_reset_token => "1234") }
+    let(:user) { create(:user, :password_reset_token => "1234") }
     before do
       user.update_attributes(:password => "new-password", :password_confirmation => "new-password")
     end
@@ -63,7 +68,7 @@ describe User do
   end
 
   describe ".new_from_invite_code" do
-    let(:invite) { FactoryGirl.create(:invitation) }
+    let(:invite) { create(:invitation) }
     let(:user) { User.new_from_invite_code(invite.code) }
 
     it "returns a User with an email address" do
@@ -76,7 +81,7 @@ describe User do
   end
 
   describe "#send_password_reset_instructions" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
 
     it "set a new password_reset_token" do
       SecureRandom.should_receive(:urlsafe_base64).with(20).and_return('code')
@@ -94,33 +99,15 @@ describe User do
   end
 
   describe "#full_name" do
-    let(:user) { FactoryGirl.create(:user, :first_name => "First", :last_name => "Last") }
+    let(:user) { create(:user, :first_name => "First", :last_name => "Last") }
 
     it "returns the user's full name" do
       user.full_name.should eql("First Last")
     end
   end
 
-  describe "#image_source" do
-    context "for a user with no associated company" do
-      let(:user) { FactoryGirl.create(:user, :company_id => nil) }
-
-      it "returns the user" do
-        user.image_source.should eql(user)
-      end
-    end
-
-    context "for a user with an associated company" do
-      let(:user) { FactoryGirl.create(:user) }
-
-      it "returns the user's company" do
-        user.image_source.should eql(user.company)
-      end
-    end
-  end
-
   describe "#build_image" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
     let(:image) { user.build_image({ :file => "/some_directory/example.png" }) }
 
     it "returns an instance of Image" do
@@ -133,6 +120,43 @@ describe User do
 
     it "assigns its company as the image's company" do
       image.company.should eql(user.company)
+    end
+  end
+
+  describe "#coworker_of?" do
+    let(:company) { create(:company) }
+    let(:user) { create(:user, :company => company) }
+
+    context "when passed a user in a different company" do
+      let(:other_user) { create(:user, :company => create(:company)) }
+      subject{ user.coworker_of?(other_user) }
+
+      it { should be_false }
+    end
+
+    context "when passed a user in the same company" do
+      let(:other_user) { create(:user, :company => company) }
+      subject{ user.coworker_of?(other_user) }
+
+      it { should be_true }
+    end
+  end
+
+  describe "#authorized_for_company?" do
+    let(:user) { create(:user) }
+
+    context "when passed a different company" do
+      let(:company) { create(:company) }
+      subject{ user.authorized_for_company?(company) }
+
+      it { should be_false }
+    end
+
+    context "when passed the user's company" do
+      let(:company) { user.company }
+      subject{ user.authorized_for_company?(company) }
+
+      it { should be_true }
     end
   end
 end

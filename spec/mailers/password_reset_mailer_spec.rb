@@ -5,7 +5,7 @@ describe PasswordResetMailer do
   include EmailSpec::Matchers
 
   describe ".send_reset_instructions" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
     before { user.password_reset_token = '1234' }
     subject { PasswordResetMailer.send_reset_instructions(user) }
     

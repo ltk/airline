@@ -3,16 +3,16 @@ require "spec_helper"
 describe "Invitations" do
   describe "inviting a user to signup" do
     context "when logged out" do
-      it "redirects to the login page" do
+      it "redirects to the homepage" do
         visit "/invitation/new"
 
-        current_path.should == new_session_path
-        page.should have_content "You must sign in first"
+        current_path.should == root_path
+        page.should have_content "Please sign in."
       end
     end
 
     context "when logged in" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { create(:user) }
     
       before do
         log_in user.email, user.password
@@ -24,7 +24,7 @@ describe "Invitations" do
           invite("bob.loblaw@lawsblog.com")
 
           expect { form_submission }.to change { Invitation.count }.by(1)
-          current_path.should == root_path
+          current_path.should == company_images_path(:company_slug => user.company_slug)
           page.should have_content "Invitation sent"
           Invitation.last.company_id.should == user.company_id
           InvitationMailer.deliveries.should_not be_empty

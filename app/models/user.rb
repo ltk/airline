@@ -1,17 +1,19 @@
 class User < ActiveRecord::Base
   include SimplestAuth::Model
+  extend FriendlyId
+  friendly_id :full_name, :use => :slugged
 
   attr_accessible :first_name, :last_name, :email, :company_id, :password, :password_confirmation, :company_attributes, :avatar
   attr_protected :company_id, :company_attributes, as: :update
 
-  belongs_to :company
+  belongs_to :company, :inverse_of => :users
   has_many :images
 
   accepts_nested_attributes_for :company, :reject_if => :all_blank
 
   authenticate_by :email
 
-  validates :first_name, :last_name, :presence => true
+  validates :first_name, :last_name, :slug, :company, :presence => true
   validates :email, :presence => true, :uniqueness => true, :email => true
   validates :password, :confirmation => true
   validates :password, :length => {:minimum => 5}, :if => :password_required?
@@ -19,7 +21,7 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :presence => true, :on => :create
   validates :password_reset_token, :uniqueness => true, :allow_nil => true
 
-  delegate :name, :to => :company, :prefix => true
+  delegate :name, :slug, :to => :company, :prefix => true
 
   mount_uploader :avatar, AvatarUploader
 
@@ -49,8 +51,12 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def image_source
-    company || self
+  def authorized_for_company?(company)
+    company.present? && self.company == company
+  end
+
+  def coworker_of?(user)
+    user.present? && user.company == self.company
   end
 
   private

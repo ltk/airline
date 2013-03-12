@@ -9,7 +9,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new(params[:invitation])
     @invitation.company_id = current_user.company_id
     if @invitation.save
-      redirect_to root_path, :notice => "Invitation sent"
+      redirect_to company_images_path(:company_slug => current_user.company_slug), :notice => "Invitation sent"
     else
       flash.now[:error] = "There were errors in your submission"
       render "new"

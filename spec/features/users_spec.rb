@@ -2,10 +2,10 @@ require "spec_helper"
 
 describe "Users" do
   describe "Signing up" do
-    let(:user) { FactoryGirl.build(:user) }
+    let(:user) { build(:user) }
     context "without an invitation code" do
       before do
-        FactoryGirl.create(:company, :name => "Viget Labs")
+        create(:company, :name => "Viget Labs")
         visit "/user/new"
       end
 
@@ -37,7 +37,7 @@ describe "Users" do
       end
 
       describe "with invalid user information" do
-        let(:invalid_user) { FactoryGirl.build(:user, :email => 'invalid@email') }
+        let(:invalid_user) { build(:user, :email => 'invalid@email') }
         it "does not create a user record" do
           fill_in_sign_up_form_with(invalid_user)
           select "Viget Labs", :from => "Company"
@@ -50,7 +50,7 @@ describe "Users" do
 
     context "with an invitation code" do
       describe "that is valid" do
-        let(:invitation) { FactoryGirl.create(:invitation) }
+        let(:invitation) { create(:invitation) }
         before { visit "/user/new?code=#{invitation.code}" }
 
         it "fills in the user's email address" do
@@ -105,14 +105,14 @@ describe "Users" do
 
   describe "editing information" do
     context "when logged in as the user being edited" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { create(:user) }
       before do
         login_with(user)
         click_link "Edit Account"
       end
 
       it "displays the user's company name" do
-        page.should have_content "Acme, Inc."
+        page.should have_content user.company_name
       end
 
       context "providing a valid email address" do

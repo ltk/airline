@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_authenticated
     unless logged_in?
-      redirect_to new_session_path, :alert => "You must sign in first"
+      redirect_to root_path, :alert => "Please sign in."
     end
   end
 end

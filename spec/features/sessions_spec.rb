@@ -17,9 +17,9 @@ describe "Sessions" do
     end
 
     describe "with valid credentials" do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { create(:user) }
       
-      it "renders the account page" do
+      it "renders the user's company image stream" do
         visit "/session/new"
 
         fill_in "Email", :with => user.email
@@ -27,7 +27,7 @@ describe "Sessions" do
 
         click_button "Sign in"
 
-        page.current_path.should == root_path
+        page.current_path.should == company_images_path(:company_slug => user.company_slug)
         page.should have_content "Signed in"
       end
     end
@@ -36,13 +36,13 @@ describe "Sessions" do
   describe "Signing Out" do
     describe "a user who is logged in" do
       it "can log out" do
-        user = FactoryGirl.create(:user)
+        user = create(:user)
         log_in user.email, user.password
 
         visit root_path
         click_link "Sign Out"
 
-        page.current_path.should == new_session_path
+        page.current_path.should == root_path
         page.should have_content "Signed out"
       end
     end

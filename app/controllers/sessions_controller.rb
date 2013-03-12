@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     user = User.authenticate(session_params[:email], session_params[:password])
     if user
       self.current_user = user
-      redirect_to root_path, :alert => "Signed in successfully"
+      redirect_to_images
     else
       redirect_to new_session_path, :alert => "Couldn't locate a user with those credentials"
     end
@@ -14,10 +14,14 @@ class SessionsController < ApplicationController
 
   def destroy
     self.current_user = nil
-    redirect_to new_session_path, :alert => "Signed out"
+    redirect_to root_path, :alert => "Signed out"
   end
 
   private
+
+  def redirect_to_images
+      redirect_to company_images_path(:company_slug => current_user.company_slug), :alert => "Signed in successfully"
+  end
 
   def session_params
     params[:session] || {}
