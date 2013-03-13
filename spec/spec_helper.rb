@@ -57,6 +57,8 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.include FactoryGirl::Syntax::Methods
+
   module RSpec::Rails::ViewRendering::ClassMethods
     def render_views?
       true

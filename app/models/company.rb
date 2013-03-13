@@ -1,9 +1,12 @@
 class Company < ActiveRecord::Base
-  attr_accessible :name
+  extend FriendlyId
+  friendly_id :name, :use => :slugged
 
-  has_many :users
+  attr_accessible :name, :slug
+
+  has_many :users, :inverse_of => :company
   has_many :invitations, :dependent => :destroy
   has_many :images
   
-  validates :name, :presence => true
+  validates :name, :slug, :presence => true
 end

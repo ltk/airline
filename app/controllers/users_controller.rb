@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     if @user.save
       self.current_user = @user
-      redirect_to root_path, :notice => "User created"
+      redirect_to_company_stream({ :notice => "User created" })
     else
       flash.now[:error] = "There were errors in your submission"
       render "new"

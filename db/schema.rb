@@ -11,13 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130227194221) do
+ActiveRecord::Schema.define(:version => 20130308221440) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.string   "bayeux_token", :limit => 40
+    t.string   "slug"
   end
+
+  add_index "companies", ["slug"], :name => "index_companies_on_slug", :unique => true
 
   create_table "images", :force => true do |t|
     t.string   "file"
@@ -49,8 +53,10 @@ ActiveRecord::Schema.define(:version => 20130227194221) do
     t.integer  "company_id"
     t.string   "avatar"
     t.string   "password_reset_token", :limit => 30
+    t.string   "slug"
   end
 
   add_index "users", ["password_reset_token"], :name => "index_users_on_password_reset_token"
+  add_index "users", ["slug"], :name => "index_users_on_slug", :unique => true
 
 end

@@ -5,7 +5,7 @@ describe InvitationMailer do
   include EmailSpec::Matchers
 
   describe ".invite" do
-    let(:invitation) { FactoryGirl.create(:invitation) }
+    let(:invitation) { create(:invitation) }
     subject { InvitationMailer.invite(invitation) }
     
     it { should deliver_to invitation.email }
@@ -19,7 +19,7 @@ describe InvitationMailer do
     end
 
     it "contains the company name" do
-      should have_body_text "Acme, Inc."
+      should have_body_text Company.find(invitation.company_id).name
     end
   end
 end

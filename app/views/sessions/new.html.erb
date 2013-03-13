@@ -1,8 +1,2 @@
 <h1>Sign In to Your Account</h1>
-<%= simple_form_for :session, :url => session_path do |f| %>
-  <%= f.input :email %>
-  <%= f.input :password %>
-  <%= f.button :submit, :value => "Sign in" %>
-  <%= link_to "Forgot password?", new_password_path %>
-  <%= link_to "Create an account", new_user_path %>
-<% end %>
+<%= render "form" %>

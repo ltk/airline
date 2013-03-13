@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "Passwords" do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { create(:user) }
 
   describe "Requesting reset instruction delivery" do
     before do

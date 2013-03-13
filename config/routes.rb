@@ -12,9 +12,8 @@ Airline::Application.routes.draw do
   resources :images, :only => [:create]
   resource :company, :only => [:show]
 
-  scope :constraints => lambda{|req| req.session[:user_id].present? } do
-    root :to => "images#index"
-  end
+  match "/:company_slug" => "company_image_streams#index", :as => :company_images
+  match "/:company_slug/:user_slug" => "user_image_streams#index", :as => :company_user_images
 
-  root :to => "users#new"
+  root :to => "homepage#show"
 end
