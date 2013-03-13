@@ -68,8 +68,8 @@ describe "Images" do
                   should have_content("First Last")
                 end
 
-                it "has an image" do
-                  should have_xpath("./img")
+                it "contains a small version of the entry image" do
+                  should have_xpath("./img[@src=\"#{user.images.first.file_url(:small)}\"]")
                 end
 
                 context "if the user has an avatar" do
@@ -140,7 +140,7 @@ describe "Images" do
 
   context "when not logged in" do
     describe "visiting an image stream url" do
-      before { visit "/" }
+      before { visit "/acme-inc" }
 
       it "redirects to the homepage" do
         page.current_path.should == root_path

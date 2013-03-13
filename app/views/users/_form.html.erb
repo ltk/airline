@@ -2,20 +2,16 @@
 <%= f.input :first_name %>
 <%= f.input :last_name %>
 
-<% if action == :new %>
-  <% if f.object.company_id.nil? %>
-    <div class="company-fields"><%= f.association :company, :label => 'Choose Your Company' %> or <%= link_to_add_association 'Add a New Company', f, :company %></div>
-  <% else %>
-    <span class="company-name">Company: <%= f.object.company_name %></span>
-    <%= f.input :company_id, :as => :hidden, :value => f.object.company_id %>
-  <% end %>
+<% if f.object.company_id %>
+  <span class="company-name">Company: <%= f.object.company_name %></span>
 <% else %>
-  <% if f.object.company_id.nil? %>
-    <div class="company-fields"><%= f.association :company, :label => 'Choose Your Company' %> or <%= link_to_add_association 'Add a New Company', f, :company %></div>
-  <% else %>
-    <span class="company-name">Company: <%= f.object.company_name %></span>
-  <% end %>
+  <div class="company-fields"><%= f.association :company, :label => 'Choose Your Company' %> or <%= link_to_add_association 'Add a New Company', f, :company %></div>
 <% end %>
+
+<% if f.object.company_id && !f.object.persisted? %>
+  <%= f.input :company_id, :as => :hidden, :value => f.object.company_id %>
+<% end %>
+
 <%= f.input :email %>
 <%= f.input :password %>
 <%= f.input :password_confirmation %>

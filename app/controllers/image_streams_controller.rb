@@ -1,7 +1,7 @@
 class ImageStreamsController < ApplicationController
   helper_method :current_company
   before_filter :ensure_authenticated
-  before_filter :ensure_authorized
+  before_filter :redirect_to_company_stream, :unless => :authorized?
 
   def index
     @images = stream_source.images.newest.page(params[:page])
@@ -9,7 +9,7 @@ class ImageStreamsController < ApplicationController
 
   private
 
-  def ensure_authorized
-    raise NotImplementedError.new("You must implement #ensure_authenticated.")
+  def authorized?
+    raise NotImplementedError.new("You must implement #authorized?.")
   end
 end
